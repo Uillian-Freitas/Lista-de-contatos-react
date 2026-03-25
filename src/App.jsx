@@ -1,4 +1,4 @@
-import Contato from "./components/contatos/Contato"
+import Contato from "./contatos/Contato"
 import { useState } from "react"
 import styled from "styled-components"
 
@@ -8,7 +8,7 @@ color: white;
 
 display: flex;
 justify-content: center;
-align-items: center
+align-items: center;
 
 min-height: 100vh;
 `
@@ -26,7 +26,7 @@ margin: 10px;
 background-color: #4CAF50;
 color: white;
 border: none;
-Border-radius: 5px;
+border-radius: 5px;
 cursor: pointer;
 `
 
@@ -34,7 +34,7 @@ const Card = styled.div`
 background-color: #1a1a1a;
 padding: 30px;
 border-radius: 10px;
-Width: 400px;
+width: 400px;
 `
 
 
@@ -44,16 +44,19 @@ function App() {
   const [contatos, setContatos] = useState ([
 
     {
+      id: 1,
       nome: "João silva",
       email: "joao@email.com",
       telefone: "99999-9999"
     },
     {
+      id: 2,
       nome: "Maria Souza",
       email: "maria@email.com",
       telefone: "88888-8888"
     },
     {
+      id: 3,
       nome: "Pedro Santos",
       email: "pedro@email.com",
       telefone: "77777-7777"
@@ -68,15 +71,15 @@ function App() {
     const [removendoIndex, setRemovendoIndex] = useState(null)
 
     function removerContato(indexParaRemover) {
-      setRemovendoIndex(indexParaRemover)
+  setRemovendoIndex(indexParaRemover)
 
-      setTimeout(() => {
-        const novaLista = contatos.filter((_, index) => index !== indexParaRemover)
-        setContatos(novaLista)
-        setRemovendoIndex(null)
-      }, 500)
-    }
-
+  setTimeout(() => {
+    setContatos((prev) =>
+      prev.filter((_, index) => index !== indexParaRemover)
+    )
+    setRemovendoIndex(null)
+  }, 900)
+}
     const [indexEditando, setIndexEditando] = useState(null)
 
     function editarContato(index) {
@@ -113,6 +116,7 @@ setNome('')
 setEmail("")
 setTelefone('')
       }
+      console.log(removendoIndex)
     return (
     
         <Container>
@@ -139,12 +143,11 @@ setTelefone('')
           <Botao onClick={salvarContato}>{indexEditando === null ? "Adicionar" : "Atualizar"}</Botao>
         {contatos.map((contato, index) => (
         <Contato
-        key={index}
+        key={contato.id}
         nome={contato.nome}
         email={contato.email}
         telefone={contato.telefone}
         onEditar={() => editarContato(index)}
-        removendo={index === removendoIndex}
         onRemover={() => removerContato(index)}
         />
         ))}
