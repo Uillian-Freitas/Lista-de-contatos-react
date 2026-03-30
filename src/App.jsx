@@ -1,6 +1,9 @@
+import { useDispatch, useSelector } from "react-redux";
+import { adicionarContato, removerContato, editarContato as editarContatoAction } from './actions/contatosActions';
 import Contato from "./contatos/ContatoTemp.jsx";
 import { useState } from "react"
 import styled from "styled-components"
+
 
 const Container = styled.div`
 background-color: #1e1e2f;
@@ -41,82 +44,81 @@ width: 400px;
 
 function App() {
 
-  const [contatos, setContatos] = useState ([
+  const contatos = useSelector((state) => state.contatos.contatos)
+  const dispatch = useDispatch()
 
-    {
-      id: 1,
-      nome: "João silva",
-      email: "joao@email.com",
-      telefone: "99999-9999"
-    },
-    {
-      id: 2,
-      nome: "Maria Souza",
-      email: "maria@email.com",
-      telefone: "88888-8888"
-    },
-    {
-      id: 3,
-      nome: "Pedro Santos",
-      email: "pedro@email.com",
-      telefone: "77777-7777"
-    }
+  function handleRemover(index) {
+    dispatch(removerContato(index))
+  }
 
-  ])
+  function editarContato(index) {
+    const contato = contatos[index]
+
+    setNome(contato.nome)
+    setEmail(contato.email)
+    setTelefone(contato.telefone)
+
+    setIndexEditando(index)
+  }
 
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
     const [telefone, setTelefone] = useState('')
-
-    const [removendoIndex, setRemovendoIndex] = useState(null)
-
-    function removerContato(indexParaRemover) {
-  setRemovendoIndex(indexParaRemover)
-
-  setTimeout(() => {
-    setContatos((prev) =>
-      prev.filter((_, index) => index !== indexParaRemover)
-    )
-    setRemovendoIndex(null)
-  }, 900)
-}
     const [indexEditando, setIndexEditando] = useState(null)
-
-    function editarContato(index) {
-      const contato = contatos[index]
-
-      setNome(contato.nome)
-      setEmail(contato.email)
-      setTelefone(contato.telefone)
-
-      setIndexEditando(index)
-    }
+    const emailValido = /\S+@\S+\.\S+/.test(email)
+    const telefoneValido = /^\(\d{2}\) \d{5}-\d{4}$/.test(telefone)
 
     function salvarContato() {
+        if (!nome || !email || !telefone) {
+        alert("Preencha todos os campos")
+        return
+      }
+      if (!emailValido) {
+  alert("Digite um email válido")
+  return
+}
+if (!telefoneValido) {
+  alert("Telefone deve estar no formato (00) 00000-0000")
+  return
+}
+
       const novoContato = {
+        id: crypto.randomUUID(),
         nome,
         email,
-        telefone
-      }
+        telefone    
+      };
 
-      if (indexEditando === null) {
-        setContatos([...contatos, novoContato])
-      }else {
-  const novaLista = contatos.map((contato, index) => {
-    if(index === indexEditando) {
-      return novoContato
-    }
-    return contato
-  })
-  
-  setContatos(novaLista)
-  setIndexEditando(null)
-}
+
+        if (indexEditando === null) {
+    dispatch(adicionarContato(novoContato))
+  } else {
+    dispatch(editarContatoAction(indexEditando, novoContato))
+    setIndexEditando(null)
+  }
 setNome('')
 setEmail("")
 setTelefone('')
-      }
-      console.log(removendoIndex)
+}
+
+    function formatarTelefone(valor) {
+  
+  valor = valor.replace(/\D/g, '')
+
+  
+  valor = valor.slice(0, 11)
+
+  
+  if (valor.length > 10) {
+    return valor.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3')
+  } else if (valor.length > 5) {
+    return valor.replace(/^(\d{2})(\d{4,5})/, '($1) $2')
+  } else if (valor.length > 2) {
+    return valor.replace(/^(\d{2})/, '($1)')
+  }
+
+  return valor
+}
     return (
     
         <Container>
@@ -137,23 +139,28 @@ setTelefone('')
           <Input type="text"
           placeholder="Digite um telefone"
           value={telefone}
-          onChange={(e) => setTelefone(e.target.value)} />
+          onChange={(e) => setTelefone(formatarTelefone(e.target.value))} />
           <p>{telefone}</p>
 
-          <Botao onClick={salvarContato}>{indexEditando === null ? "Adicionar" : "Atualizar"}</Botao>
-        {contatos.map((contato, index) => (
-        <Contato
-        key={contato.id}
-        nome={contato.nome}
-        email={contato.email}
-        telefone={contato.telefone}
-        onEditar={() => editarContato(index)}
-        onRemover={() => removerContato(index)}
-        />
-        ))}
-        </Card>
-        </Container>
-  )
+          <Botao onClick={salvarContato}>
+            {indexEditando === null ? "Adicionar" : "Atualizar"}
+          </Botao>
+        {contatos.map((contato, index) => {
+          return (
+            <div key={contato.id}>
+              <Contato
+                nome={contato.nome}
+                email={contato.email}
+                telefone={contato.telefone}
+                onRemover={() => handleRemover(index)}
+                onEditar={() => editarContato(index)}
+              />
+            </div>
+          );
+        })}
+      </Card>
+    </Container>
+  );
 }
 
 export default App

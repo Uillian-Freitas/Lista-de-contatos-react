@@ -8,7 +8,22 @@ export default function contatosReducer(state = estadoInicial, action) {
         ...state,
         contatos: [...state.contatos, action.payload]
     }
-    default:
+    case 'REMOVER_CONTATO':
+        return {
+            ...state,
+            contatos: state.contatos.filter((_, index) => index !== action.payload)
+        }   
+    case 'EDITAR_CONTATO':
+    return {
+        ...state,
+        contatos: state.contatos.map((contato, index) => {
+            if (index === action.payload.index) {
+                return action.payload.novoContato
+            }
+            return contato
+        })
+    }
+        default:
         return state
-}   
+} 
 }
