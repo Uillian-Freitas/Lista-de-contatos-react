@@ -1,16 +1,134 @@
-# React + Vite
+# 📇 Lista de Contatos com React + Redux
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+link para teste: https://lista-de-contatos-react-khaki.vercel.app/
 
-Currently, two official plugins are available:
+Aplicação de gerenciamento de contatos desenvolvida com **React**, utilizando **Redux** para controle de estado global.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* ➕ Adicionar contatos
+* ✏️ Editar contatos
+* ❌ Remover contatos
+* 🔄 Atualização automática da interface com Redux
+* 📱 Formatação automática de telefone
+* ✅ Validação de campos (nome, email e telefone)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🧠 Conceitos aplicados
+
+* Gerenciamento de estado global com **Redux**
+* Uso de **actions** e **reducers**
+* Imutabilidade de estado
+* Hooks do React:
+
+  * `useState`
+  * `useDispatch`
+  * `useSelector`
+* Componentização
+* Styled Components
+* Validação de formulário
+* Máscara de input (telefone)
+
+---
+
+## 📌 Estrutura do Projeto
+
+```
+src/
+│
+├── actions/
+│   └── contatosActions.js
+│
+├── reducers/
+│   └── contatosReducer.js
+│
+├── components/
+│   └── contatos/
+│       └── ContatoTemp.jsx
+│
+├── store/
+│   └── index.js
+│
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+## 🛠️ Tecnologias utilizadas
+
+* React
+* Redux
+* React-Redux
+* Styled Components
+* JavaScript (ES6+)
+* Vite
+
+---
+
+## 📥 Instalação e execução
+
+```bash
+# Clonar o repositório
+git clone <seu-repositorio>
+
+# Entrar na pasta
+cd lista-contatos
+
+# Instalar dependências
+npm install
+
+# Rodar o projeto
+npm run dev
+```
+
+---
+
+## 📱 Validações implementadas
+
+### 📞 Telefone
+
+* Formato obrigatório: `(XX) XXXXX-XXXX`
+* Formatação automática enquanto digita
+
+### 📧 Email
+
+* Deve conter formato válido (ex: `email@email.com`)
+
+### 🧾 Campos obrigatórios
+
+* Nome
+* Email
+* Telefone
+
+---
+
+## 🎯 Objetivo do projeto
+
+Este projeto foi desenvolvido com foco em aprendizado prático de:
+
+* Fluxo de dados no Redux
+* Separação de responsabilidades
+* Boas práticas em aplicações React
+* Manipulação de listas e formulários
+
+---
+
+## 💡 Melhorias futuras
+
+* Persistência com LocalStorage ou API
+* Filtro de contatos
+* Busca por nome
+* Melhor tratamento de erros
+* Testes automatizados
+
+---
+
+
+## 👨‍💻 Autor
+
+Desenvolvido por Uillian Freitas
+
