@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { adicionarContato, removerContato, editarContato as editarContatoAction } from './actions/contatosActions';
+import { adicionarContato, removerContato, editarContato as editarContatoAction } from './redux/actions/contatosActions';
 import Contato from "./contatos/ContatoTemp.jsx";
 import { useState } from "react"
 import styled from "styled-components"

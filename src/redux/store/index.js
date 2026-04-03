@@ -3,6 +3,6 @@ import contatosReducer from "../reducers/contatosReducer";
 
 export const store = configureStore({
     reducer: {
-        contatos: contatosReducer
-    }
-})
+    contatos: contatosReducer,
+    },
+});
